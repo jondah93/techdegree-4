@@ -1,6 +1,8 @@
 .DS_Store
 .idea
 STORE_INVENTORY
+inventory.db
+backup.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
