@@ -51,21 +51,21 @@ def view_entries(specific=False, verbose=False):
 def take_product_input():
     """Takes user input and returns a dict that can be stored in db."""
     product_name = input('Enter product name >>> ').strip()
-    product_price = False # So user won't have to re-enter price if they get ValueError at quantity-prompt
+    product_quantity = False # So user won't have to re-enter price if they get ValueError at quantity-prompt
     while True:
         try:
-            if not product_price:
-                product_price = int(input('Enter product price (cents) >>> '))
-            product_quantity = int(input('Enter product quantity >>> '))
+            if not product_quantity:
+                product_quantity = int(input('Enter product quantity >>> '))
+            product_price = int(input('Enter product price (cents) >>> '))
 
             product = {'product_name': product_name,
-                    'product_price': product_price,
-                    'product_quantity': product_quantity,
-                    'date_updated': datetime.datetime.now(),
-                    }
+                       'product_quantity': product_quantity,
+                       'product_price': product_price,
+                       'date_updated': datetime.datetime.now(),
+                       }
             return product
         except ValueError as err:
-            print(('Invalid input' + '\nError: {}').format(err))
+            print(('Invalid input...' + '\nError: {}').format(err))
 
 def add_entry(product=None, verbose=True):
     """Add a product to the database."""
@@ -94,7 +94,7 @@ def add_entry(product=None, verbose=True):
                 ))
         finally:
             if verbose:
-                input('\nPress ENTER to continue...')
+                input('\nPress ENTER to continue >>> ')
 
 def view_by_id():
     """View a product (product id required)."""
@@ -110,7 +110,7 @@ def view_by_id():
         except (DoesNotExist, ValueError):
             print('\nPRODUCT NOT FOUND')
         finally:
-            input('\nPress ENTER to continue...')
+            input('\nPress ENTER to continue >>> ')
 
 def export_db():
     """Exports database to csv-file."""
@@ -120,7 +120,7 @@ def export_db():
         writer.writerow(Product._meta.sorted_field_names)
         writer.writerows(products.tuples())
 
-        input(('DB exported to {}.\n\nPress ENTER to continue...').format(
+        input(('DB exported to {}\n\nPress ENTER to continue >>> ').format(
             (os.getcwd() + '/backup.csv')
         ))
 
@@ -160,6 +160,10 @@ def menu_loop():
 
         if choice in menu:
             menu[choice]()
+        elif choice.lower() == 'q':
+            break
+        else:
+            input('Invalid input... Press ENTER to try again >>> ')
 
 menu = OrderedDict([
     ('a', add_entry),
