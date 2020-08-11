@@ -51,7 +51,7 @@ def view_entries(specific=False, verbose=False):
 def take_product_input():
     """Takes user input and returns a dict that can be stored in db."""
     product_name = input('Enter product name >>> ').strip()
-    product_quantity = False # So user won't have to re-enter price if they get ValueError at quantity-prompt
+    product_quantity = False # So user won't have to re-enter quantity if they get ValueError at price-prompt.
     while True:
         try:
             if not product_quantity:
